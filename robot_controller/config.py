@@ -1,0 +1,2 @@
+NAO_IP_ADDRESS = ''
+NAO_PORT=0
