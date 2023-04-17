@@ -3,6 +3,7 @@ from robot_controller.config import NAO_PORT,NAO_IP_ADDRESS
 #from naoqi import ALProxy
 
 def connect(request):
+    print(request.json)
     NAO_IP_ADDRESS = request.json.get('ip_address')
     NAO_PORT = request.json.get('port')
     try:
