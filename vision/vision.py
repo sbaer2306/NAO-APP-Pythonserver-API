@@ -1,4 +1,3 @@
-from .vision import *
 from flask import jsonify
 from robot_controller.config import NAO_PORT,NAO_IP_ADDRESS
 from naoqi import ALProxy
