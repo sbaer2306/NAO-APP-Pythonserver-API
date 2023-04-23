@@ -7,23 +7,40 @@ robot_controller = Blueprint('robot_controller', __name__)
 
 from config.config import *
 from move import motions
+from audio.audio import *
 @robot_controller.route('/')
 def index():
     return "Hello, World!"
-
+#Basic-Config Routes
 @robot_controller.route('/api/connect', methods=['POST'])
 def connect_route():
     return connect(request)
-
-#Basic-Config Routes
-@robot_controller.route('/api/config/volume', methods=['GET'])
+@robot_controller.route('/api/config/temperature', methods=['GET'])
+def get_temperature_route():
+    return get_temperature()
+@robot_controller.route('/api/config/battery', methods=['GET'])
+def get_battery_route():
+    return get_battery()
+#Audio-Routes
+@robot_controller.route('/api/audio/volume', methods=['GET'])
 def get_volume_route():
     return get_volume()
-
-@robot_controller.route('/api/config/volume/<int:volume>', methods=['POST'])
-def set_volume_route(volume):
-    return set_volume(volume)
-
+@robot_controller.route('/api/audio/volume', methods=['POST'])
+def set_volume_route():
+    return set_volume(request)
+@robot_controller.route('/api/audio/language', methods=['GET'])
+def get_language_route():
+    return get_language()
+@robot_controller.route('/api/audio/language', methods=['POST'])
+def set_language_route():
+    return set_language(request)
+@robot_controller.route('/api/audio/tts', methods=['POST'])
+def tts_route():
+    return set_language(request)
+#Movement
+@robot_controller.route('/api/move/posture', methods=['POST'])
+def move_posture_route():
+    return move_posture(request)
 @robot_controller.route('/api/move/forward', methods=['POST'])
 def move_forward_route():
     return move_forward()
