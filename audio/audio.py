@@ -8,7 +8,7 @@ def get_volume():
     try:
         audioDeviceProxy = ALProxy("ALAudioDevice", NAO_IP_ADDRESS, NAO_PORT)
         level = str(audioDeviceProxy.getOutputVolume())
-        return jsonify({"message":"Successfully got volume","volume": level, 'return_code': 200}), 200
+        return jsonify({"volume": level, 'return_code': 200}), 200
     except:
         return jsonify({'message': 'Failed to set volume', 'return_code': 500}), 500
 def set_volume(request):

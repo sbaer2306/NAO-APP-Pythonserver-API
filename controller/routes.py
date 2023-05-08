@@ -42,7 +42,11 @@ def tts_route():
 @robot_controller.route('/api/move/posture', methods=['POST'])
 def move_posture_route():
     return move_posture(request)
-@robot_controller.route('/api/move/forward', methods=['POST'])
+
+@robot_controller.route('/api/move/movement', methods=['POST'])
+def movement_route():
+    return move_movement(request)
+"""@robot_controller.route('/api/move/forward', methods=['POST'])
 def move_forward_route():
     return move_forward()
 
@@ -57,11 +61,11 @@ def turn_left_route():
 @robot_controller.route('/api/move/turn_right', methods=['POST'])
 def turn_right_route():
     return turn_right()
-
+"""
 ##vision
-@robot_controller.route('/api/audio/language', methods=['GET'])
+@robot_controller.route('/api/vision/brightness', methods=['GET'])
 def get_brightness_route():
     return get_brightness()
-@robot_controller.route('/api/audio/tts', methods=['POST'])
+@robot_controller.route('/api/vision/brightness', methods=['POST'])
 def set_brightness_route():
     return set_brightness(request)

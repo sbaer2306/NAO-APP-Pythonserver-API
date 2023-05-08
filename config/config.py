@@ -16,14 +16,14 @@ def get_temperature():
     try:
         bodyTemperatureProxy = ALProxy("ALBodyTemperature",  NAO_IP_ADDRESS, NAO_PORT)
         level = str(bodyTemperatureProxy.getTemperatureDiagnosis())
-        return jsonify({"temperature": level}), 200
+        return jsonify({"temperature": level, 'return:code': 200}), 200
     except:
         return jsonify({'message': 'Failed to get temperature', 'return_code': 500}), 500
 def get_battery():
     try:
         batteryProxy = ALProxy("ALBattery", NAO_IP_ADDRESS, NAO_PORT)
         level = str(batteryProxy.getBatteryCharge())
-        return jsonify({"battery": level}), 200
+        return jsonify({"battery": level, 'return_code': 200}), 200
     except:
         return jsonify({'message': 'Failed to get battery info', 'return_code': 500}), 500
 

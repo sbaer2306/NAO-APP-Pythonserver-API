@@ -9,22 +9,31 @@ def move_posture(request):
     except:
         return jsonify({'message': 'Failed to connect', 'return_code': 500}), 500
 
-def move_forward():
+def move_movement(request):
     # Send command to NAO-Robot to move forward
-    robot.move_forward()
-    return 'OK'
+    try:
+        motionProxy = ALProxy("ALMotion", NAO_IP_ADDRESS, NAO_PORT)
 
-def move_backward():
-    # Send command to NAO-Robot to move backward
-    robot.move_backward()
-    return 'OK'
+        StiffnessOn(motionProxy)
 
-def turn_left():
-    # Send command to NAO-Robot to turn left
-    robot.turn_left()
-    return 'OK'
+        enableArmsInWalkAlgorithm = bool(request.json.get("enableArmsInWalkAlgorithm"))
 
-def turn_right():
-    # Send command to NAO-Robot to turn right
-    robot.turn_right()
-    return 'OK'
+        motionProxy.setWalkArmsEnabled(enableArmsInWalkAlgorithm, enableArmsInWalkAlgorithm)
+        motionProxy.setMotionConfig([["ENABLE_FOOT_CONTACT_PROTECTION", True]])
+
+        xForwardBackward = float(request.json.get("xCoordinate"))
+        yLeftRight = float(request.json.get("yCoordinate"))
+        tRotation = float(request.json.get("tCoordinate"))
+        speed = float(request.json.get("speed"))
+
+        motionProxy.setWalkTargetVelocity(xForwardBackward, yLeftRight, tRotation, speed)
+    except:
+        return jsonify({'message': 'Failed to move', 'return_code': 500}), 500
+
+def StiffnessOn(proxy):
+    # We use the "Body" name to signify the collection of all joints
+    pNames = "Body"
+    pStiffnessLists = 1.0
+    pTimeLists = 1.0
+    proxy.stiffnessInterpolation(pNames, pStiffnessLists, pTimeLists)
+
