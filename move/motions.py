@@ -1,13 +1,15 @@
 from flask import jsonify
-from robot_controller.config import NAO_PORT,NAO_IP_ADDRESS
+from robot_controller.config import NAO_IP_ADDRESS,NAO_PORT
 from naoqi import ALProxy
 def move_posture(request):
     try:
         postureProxy = ALProxy("ALRobotPosture", NAO_IP_ADDRESS,NAO_PORT)
-        postureProxy.goToPosture(request.json.get("posture"), request.json.get("speed"))
-        return jsonify({'message': 'Successfully connected', 'return_code': 200}), 200
-    except:
-        return jsonify({'message': 'Failed to connect', 'return_code': 500}), 500
+        posture = str(request.json.get("posture"))
+        speed = float(request.json.get("speed"))
+        postureProxy.goToPosture(posture,speed)
+        return jsonify({'message': 'Successfully done posture', 'posture': posture, 'speed': speed, 'return_code': 200}), 200
+    except Exception as e:
+        return jsonify({'message': 'Failed to do posture','cause': str(e), 'return_code': 500}), 500
 
 def move_movement(request):
     # Send command to NAO-Robot to move forward

@@ -1,6 +1,6 @@
 from flask import Flask, request, abort
 from controller.routes import robot_controller
-from robot_controller.config import NAO_IP_ADDRESS, NAO_PORT
+from robot_controller.config import NAO_IP_ADDRESS,NAO_PORT
 
 # Create a new Flask app
 app = Flask(__name__)

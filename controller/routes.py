@@ -6,9 +6,10 @@ from move.motions import *
 robot_controller = Blueprint('robot_controller', __name__)
 
 from config.config import *
-from move import motions
+from move.motions import *
 from audio.audio import *
 from vision.vision import *
+from behavior.behavior import *
 @robot_controller.route('/')
 def index():
     return "Hello, World!"
@@ -35,9 +36,15 @@ def get_language_route():
 @robot_controller.route('/api/audio/language', methods=['POST'])
 def set_language_route():
     return set_language(request)
+@robot_controller.route('/api/audio/voice', methods=['GET'])
+def get_voice_route():
+    return get_voices()
+@robot_controller.route('/api/audio/voice', methods=['POST'])
+def set_voice_route():
+    return set_voice(request)
 @robot_controller.route('/api/audio/tts', methods=['POST'])
 def tts_route():
-    return set_language(request)
+    return tts(request)
 #Movement
 @robot_controller.route('/api/move/posture', methods=['POST'])
 def move_posture_route():
@@ -69,3 +76,10 @@ def get_brightness_route():
 @robot_controller.route('/api/vision/brightness', methods=['POST'])
 def set_brightness_route():
     return set_brightness(request)
+#extra
+@robot_controller.route('/api/behavior/do_taj_chi', methods=['POST'])
+def do_taj_chi_route():
+    return do_taj_chi()
+@robot_controller.route('/api/behavior/stop_taj_chi', methods=['POST'])
+def stop_taj_chi_route():
+    return stop_taj_chi()
