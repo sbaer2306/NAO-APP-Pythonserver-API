@@ -20,9 +20,20 @@ def get_temperature():
 def get_battery():
     try:
         batteryProxy = ALProxy("ALBattery", NAO_IP_ADDRESS, NAO_PORT)
-        level = str(batteryProxy.getBatteryCharge())
+        level = int(batteryProxy.getBatteryCharge())
         return jsonify({"battery": level, 'return_code': 200}), 200
     except:
         return jsonify({'message': 'Failed to get battery info', 'return_code': 500}), 500
+
+def get_wifi_strength():
+    try:
+        alconnman = ALProxy("ALConnectionManager", NAO_IP_ADDRESS, NAO_PORT)
+        alconnman.scan()
+        data = alconnman.services()
+        strength = data[0][12][1]
+        return jsonify({"strength": strength, 'return_code': 200}), 200
+    except Exception as e:
+        return jsonify({'message': 'Failed to get wifi strength info','cause': str(e), 'return_code': 500}), 500
+
 
 

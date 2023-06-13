@@ -7,7 +7,7 @@ from naoqi import ALProxy
 def get_volume():
     try:
         audioDeviceProxy = ALProxy("ALAudioDevice", NAO_IP_ADDRESS, NAO_PORT)
-        level = str(audioDeviceProxy.getOutputVolume())
+        level = int(audioDeviceProxy.getOutputVolume())
         return jsonify({"volume": level, 'return_code': 200}), 200
     except Exception as e:
         return jsonify({'message': 'Failed to set volume','cause': str(e), 'return_code': 500}), 500
@@ -26,7 +26,7 @@ def get_language():
     try:
         tts = ALProxy('ALTextToSpeech', NAO_IP_ADDRESS, NAO_PORT)
         language=tts.getAvailableLanguages()
-        return jsonify({'message': 'Successfully got language','language': language, 'return_code': 200}), 200
+        return jsonify({'language': language, 'return_code': 200}), 200
     except Exception as e:
         return jsonify({'message': 'Failed to get language','cause': str(e), 'return_code': 500}), 500
 def set_language(request):
@@ -47,7 +47,7 @@ def get_voices():
 def set_voice(request):
     try:
         tts_proxy = ALProxy("ALTextToSpeech", NAO_IP_ADDRESS, NAO_PORT)
-        voice = request.json.get('voice')
+        voice = str(request.json.get('voice'))
         tts_proxy.setVoice(voice)
         tts_proxy.say("Voice changed to" +voice)
         return jsonify({'message': 'Successfully set voice', 'return_code': 200}), 200

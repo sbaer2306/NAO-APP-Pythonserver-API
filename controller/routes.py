@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, Response
 
 from move.motions import *
 
@@ -23,6 +23,9 @@ def get_temperature_route():
 @robot_controller.route('/api/config/battery', methods=['GET'])
 def get_battery_route():
     return get_battery()
+@robot_controller.route('/api/config/wifi_strength', methods=['GET'])
+def get_wifi_strength_route():
+    return get_wifi_strength()
 #Audio-Routes
 @robot_controller.route('/api/audio/volume', methods=['GET'])
 def get_volume_route():
@@ -77,9 +80,13 @@ def get_brightness_route():
 def set_brightness_route():
     return set_brightness(request)
 #extra
-@robot_controller.route('/api/behavior/do_taj_chi', methods=['POST'])
+@robot_controller.route('/api/behavior/do_taj_chi', methods=['GET'])
 def do_taj_chi_route():
     return do_taj_chi()
-@robot_controller.route('/api/behavior/stop_taj_chi', methods=['POST'])
+@robot_controller.route('/api/behavior/stop_taj_chi', methods=['GET'])
 def stop_taj_chi_route():
     return stop_taj_chi()
+
+@robot_controller.route('/api/vision/video_feed')
+def video_feed_route():
+    return video_feed()

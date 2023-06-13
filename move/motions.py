@@ -7,13 +7,17 @@ def move_posture(request):
         posture = str(request.json.get("posture"))
         speed = float(request.json.get("speed"))
         postureProxy.goToPosture(posture,speed)
-        return jsonify({'message': 'Successfully done posture', 'posture': posture, 'speed': speed, 'return_code': 200}), 200
+        return jsonify({'message': 'Successfully done posture', 'return_code': 200}), 200
     except Exception as e:
         return jsonify({'message': 'Failed to do posture','cause': str(e), 'return_code': 500}), 500
 
 def move_movement(request):
     # Send command to NAO-Robot to move forward
     try:
+        #postureProxy = ALProxy("ALRobotPosture", NAO_IP_ADDRESS, NAO_PORT)
+        #posture = str("Stand")
+        #speed = float(1.0)
+        #postureProxy.goToPosture(posture, speed)
         motionProxy = ALProxy("ALMotion", NAO_IP_ADDRESS, NAO_PORT)
 
         StiffnessOn(motionProxy)
@@ -29,8 +33,10 @@ def move_movement(request):
         speed = float(request.json.get("speed"))
 
         motionProxy.setWalkTargetVelocity(xForwardBackward, yLeftRight, tRotation, speed)
-    except:
-        return jsonify({'message': 'Failed to move', 'return_code': 500}), 500
+        return jsonify(
+            {'message': 'Successfully moving', 'return_code': 200}), 200
+    except Exception as e:
+        return jsonify({'message': 'Failed to move','cause': str(e), 'return_code': 500}), 500
 
 def StiffnessOn(proxy):
     # We use the "Body" name to signify the collection of all joints
