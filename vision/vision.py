@@ -37,7 +37,7 @@ def generate_frames():
     camera_fps = 15
 
     camera_handle = camera.subscribeCamera(
-        camera_name, 1, camera_resolution, camera_color_space, camera_fps
+        camera_name, 0, camera_resolution, camera_color_space, camera_fps
     )
 
     while True:
@@ -58,5 +58,6 @@ def generate_frames():
 
     # Kamera-Stream beenden
     camera.unsubscribe(camera_handle)
+
 
 
