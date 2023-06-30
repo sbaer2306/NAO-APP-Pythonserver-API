@@ -56,22 +56,6 @@ def move_posture_route():
 @robot_controller.route('/api/move/movement', methods=['POST'])
 def movement_route():
     return move_movement(request)
-"""@robot_controller.route('/api/move/forward', methods=['POST'])
-def move_forward_route():
-    return move_forward()
-
-@robot_controller.route('/api/move/backward', methods=['POST'])
-def move_backward_route():
-    return move_backward()
-
-@robot_controller.route('/api/move/turn_left', methods=['POST'])
-def turn_left_route():
-    return turn_left()
-
-@robot_controller.route('/api/move/turn_right', methods=['POST'])
-def turn_right_route():
-    return turn_right()
-"""
 ##vision
 @robot_controller.route('/api/vision/brightness', methods=['GET'])
 def get_brightness_route():
