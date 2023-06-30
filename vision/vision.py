@@ -9,17 +9,28 @@ def get_brightness():
     try:
         videoProxy = ALProxy("ALVideoDevice", NAO_IP_ADDRESS,NAO_PORT)
         brightness=videoProxy.getParameter(0,0)
-        return jsonify({ 'brightnesss': brightness, 'return_code': 200}), 200
+        return jsonify({ 'brightness': brightness, 'return_code': 200}), 200
     except Exception as e:
         return jsonify({'message': 'Failed to get brightness','cause': str(e), 'return_code': 500}), 500
+
+
 def set_brightness(request):
     try:
-        brightness = int(request.json.get('brightness'))
-        videoProxy = ALProxy("ALVideoDevice", NAO_IP_ADDRESS,NAO_PORT)
-        videoProxy.setParameter(0, 0, brightness)
-        return jsonify({'message': 'Successfully set brightness', 'return_code': 200}), 200
+        brightness = request.json.get('brightness')
+        if brightness is None:
+            raise ValueError("Brightness parameter is not set")
+        brightness = int(brightness)
+        if ((brightness <= 255) and (brightness >= 0)):
+            brightness = int(brightness)
+            videoProxy = ALProxy("ALVideoDevice", NAO_IP_ADDRESS, NAO_PORT)
+            videoProxy.setParameter(0, 0, brightness)
+            return jsonify({'message': 'Successfully set brightness', 'return_code': 200}), 200
+        else:
+            raise ValueError("Brightness parameter out of range (0-255)")
+    except ValueError as ve:
+        return jsonify({'message': 'Failed to set brightness', 'cause': str(ve), 'return_code': 400}), 400
     except Exception as e:
-        return jsonify({'message': 'Failed to set brightness','cause': str(e), 'return_code': 500}), 500
+        return jsonify({'message': 'Failed to set brightness', 'cause': str(e), 'return_code': 500}), 500
 
 def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
