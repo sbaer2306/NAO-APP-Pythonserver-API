@@ -6,8 +6,6 @@ def connect(request):
     try:
         NAO_IP_ADDRESS = request.json.get('ip_address')
         NAO_PORT = request.json.get('port')
-        tts_proxy = ALProxy("ALTextToSpeech", NAO_IP_ADDRESS, NAO_PORT)
-        tts_proxy.say("Voice changed to" + voice)
         return jsonify({'message': 'Successfully connected', 'return_code': 200}), 200
     except Exception as e:
         return jsonify({'message': 'Failed to connect','cause': str(e), 'return_code': 500}), 500
