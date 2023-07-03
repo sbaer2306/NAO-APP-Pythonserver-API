@@ -8,6 +8,7 @@ import qi
 def get_brightness():
     try:
         videoProxy = ALProxy("ALVideoDevice", NAO_IP_ADDRESS,NAO_PORT)
+        # top camera (0) brightness parameter (0)
         brightness=videoProxy.getParameter(0,0)
         return jsonify({ 'brightness': brightness, 'return_code': 200}), 200
     except Exception as e:
@@ -23,6 +24,7 @@ def set_brightness(request):
         if ((brightness <= 255) and (brightness >= 0)):
             brightness = int(brightness)
             videoProxy = ALProxy("ALVideoDevice", NAO_IP_ADDRESS, NAO_PORT)
+            #top camera (0) brightness parameter (0)
             videoProxy.setParameter(0, 0, brightness)
             return jsonify({'message': 'Successfully set brightness', 'return_code': 200}), 200
         else:

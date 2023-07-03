@@ -64,10 +64,11 @@ def move_movement(request):
             raise ValueError("Speed should be between 0.0 and 1.0")
 
         not_moving = True
-
+        #if the robot is already moving and it should stop, dont change posture
+        #otherwise it would try to change posture forever
         if xForwardBackward == 0.0 and yLeftRight == 0.0 and tCoordinate == 0.0:
             not_moving = False
-
+        #set this so that the robot stands when starting moving
         if (not_moving):
             postureProxy = ALProxy("ALRobotPosture", NAO_IP_ADDRESS, NAO_PORT)
             posture = str("StandZero")
@@ -76,6 +77,7 @@ def move_movement(request):
 
         motionProxy = ALProxy("ALMotion", NAO_IP_ADDRESS, NAO_PORT)
 
+        #set stiffness to be able to move
         StiffnessOn(motionProxy)
 
         motionProxy.setWalkArmsEnabled(enableArmsInWalkAlgorithm, enableArmsInWalkAlgorithm)
@@ -90,7 +92,6 @@ def move_movement(request):
 
 
 def StiffnessOn(proxy):
-    # We use the "Body" name to signify the collection of all joints
     pNames = "Body"
     pStiffnessLists = 1.0
     pTimeLists = 1.0
